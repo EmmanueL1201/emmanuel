@@ -59,14 +59,15 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Perfil{{$us->id}}</h4>
+        <h4 class="modal-title">Perfil</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-sm-12">
-            <div class="thumbnail">
+            <center>
+              <div class="thumbnail">
               <img src="{{asset('Archivos/user.jpg')}}" style="width: 200px;height:150px;">
               <div class="caption">
                 <h3> <p>{{ $us->nombre }} {{ $us->ap_paterno}} {{ $us->ap_materno }}</p></h3>
@@ -74,6 +75,7 @@
              
               </div>
             </div>
+            </center>
           </div>
         </div>
         <div class="list-group">
@@ -82,7 +84,15 @@
           </a>
           @foreach($resultado as $res)
           @if($us->id == $res->id_usuario)
-          <a href="#" class="list-group-item">Nombre: {{$res->nombre_h}} <br> No.Visitas: {{$res->numero_visita}}</a>
+          <a href="#" class="list-group-item"><b style="color:black">Nombre</b>: {{$res->nombre_h}} <br>
+            <b style="color:black">Tipo de Habitación:</b>
+            @foreach($habitaciones as $hab)
+            @if($res->id_hotel == $hab->id_hotel)
+                {{ $hab->tipo }},
+            @endif
+            @endforeach
+             <br>
+             <b style="color:black">No.Visitas:</b> {{$res->numero_visita}}</a>
           @endif
           @endforeach
         </div>

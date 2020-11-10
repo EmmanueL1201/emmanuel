@@ -72,7 +72,16 @@ class principalController extends Controller
                     'usuarios.ap_materno as ap_materno',
                     'hoteles.nombre as nombre_h',
                     'visitas.numero_visita as numero_visita',
-                    'visitas.id_usuario as id_usuario')
+                    'visitas.id_usuario as id_usuario',
+                    'hoteles.id_hotel as id_hotel')
+                    ->get();
+
+                    $habitaciones = \DB::table('hoteles')
+                    ->join('detalle_hotel','hoteles.id_hotel','=','detalle_hotel.id_hotel')
+                    ->join('habitaciones','habitaciones.id_habitacion','=','detalle_hotel.id_habitacion')
+                    ->select('hoteles.nombre as nombre',
+                    'hoteles.tipo as tipo',
+                    'detalle_hotel.id_hotel as id_hotel')
                     ->get();
                 
                     $resultado_usuario= \DB::table('usuarios')
@@ -80,7 +89,7 @@ class principalController extends Controller
                                 ->where('activo',1)
                                 ->get();
 
-                    return view('inicio')->with(['usuario'=>$resultado_usuario])->with(['resultado'=>$resultado]);
+                    return view('inicio')->with(['usuario'=>$resultado_usuario])->with(['habitaciones'=>$habitaciones])->with(['resultado'=>$resultado]);
 
         
             }
@@ -112,15 +121,26 @@ class principalController extends Controller
                 'usuarios.ap_materno as ap_materno',
                 'hoteles.nombre as nombre_h',
                 'visitas.numero_visita as numero_visita',
-                'visitas.id_usuario as id_usuario')
+                'visitas.id_usuario as id_usuario',
+                'hoteles.id_hotel as id_hotel')
                 ->get();
 
+                $habitaciones = \DB::table('hoteles')
+                ->join('detalle_hotel','hoteles.id_hotel','=','detalle_hotel.id_hotel')
+                ->join('habitaciones','habitaciones.id_habitacion','=','detalle_hotel.id_habitacion')
+                ->select('hoteles.nombre as nombre',
+                'habitaciones.tipo as tipo',
+                'detalle_hotel.id_hotel as id_hotel')
+                ->where('detalle_hotel.activo',1)
+                ->get();
+
+            
                 $resultado_usuario= \DB::table('usuarios')
                                 ->select('id','nombre','ap_paterno','ap_materno')
                                 ->where('activo',1)
                                 ->get();
 
-                return view('inicio')->with(['usuario'=>$resultado_usuario])->with(['resultado'=>$resultado]);
+                return view('inicio')->with(['usuario'=>$resultado_usuario])->with(['habitaciones'=>$habitaciones])->with(['resultado'=>$resultado]);
 
     }
     
