@@ -80,7 +80,7 @@ class principalController extends Controller
                     ->join('detalle_hotel','hoteles.id_hotel','=','detalle_hotel.id_hotel')
                     ->join('habitaciones','habitaciones.id_habitacion','=','detalle_hotel.id_habitacion')
                     ->select('hoteles.nombre as nombre',
-                    'hoteles.tipo as tipo',
+                    'habitaciones.tipo as tipo',
                     'detalle_hotel.id_hotel as id_hotel')
                     ->get();
                 
